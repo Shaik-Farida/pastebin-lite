@@ -7,7 +7,7 @@ export async function GET(
   context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
-  const now = getNow(req);
+  const now = getNow(req).toISOString();
 
   try {
     const result = await sql`
