@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   let expiresAt: string | null = null;
   if (body.ttl_seconds) {
-    expiresAt = new Date(Date.now() + body.ttl_seconds * 1000).toISOString;
+    expiresAt = new Date(Date.now() + body.ttl_seconds * 1000).toISOString();
   }
 
   await sql`
