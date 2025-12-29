@@ -1,18 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { sql } from '@/lib/db';
 import { getNow } from '@/lib/time';
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const now = getNow(req);
 
   try {
     const result = await sql`
       UPDATE pastes
       SET view_count = view_count + 1
-      WHERE id = ${params.id}
+      WHERE id = ${id}
         AND (expires_at IS NULL OR expires_at > ${now})
         AND (max_views IS NULL OR view_count < max_views)
       RETURNING content, expires_at, max_views, view_count
