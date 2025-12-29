@@ -24,9 +24,9 @@ export async function POST(req: Request) {
 
   const id = nanoid(10);
 
-  let expiresAt: Date | null = null;
+  let expiresAt: string | null = null;
   if (body.ttl_seconds) {
-    expiresAt = new Date(Date.now() + body.ttl_seconds * 1000);
+    expiresAt = new Date(Date.now() + body.ttl_seconds * 1000).toISOString;
   }
 
   await sql`
